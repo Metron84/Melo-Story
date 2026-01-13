@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fcfcfb;
+  --foreground: #121212;
+  --accent: #ffffff; /* plain white */
+  --accent-contrast: #000000;
+  --sand: #e9e3d8; /* soft sand tone */
+  
+  /* Fork Your Story Theme Colors */
+  --fys-deep: #f8f6f3;
+  --fys-ink: #2c2a26;
+  --fys-ivory: #2c2a26;
+  --fys-cream: #f5f2ed;
+  --fys-stone: #8b8680;
+  --fys-earth: #6b6660;
+  --fys-accent: #9a8b7a;
+  --fys-sage: #a8b5a0;
+  --fys-lavender: #b8a8b5;
+  --fys-gold: #c4a882;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-sand: var(--sand);
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-heading);
+  
+  /* Fork Your Story Colors */
+  --color-fys-deep: var(--fys-deep);
+  --color-fys-ink: var(--fys-ink);
+  --color-fys-ivory: var(--fys-ivory);
+  --color-fys-cream: var(--fys-cream);
+  --color-fys-stone: var(--fys-stone);
+  --color-fys-earth: var(--fys-earth);
+  --color-fys-accent: var(--fys-accent);
+  --color-fys-sage: var(--fys-sage);
+  --color-fys-lavender: var(--fys-lavender);
+  --color-fys-gold: var(--fys-gold);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b0b0b;
+    --foreground: #ededed;
+    --accent: #ffffff; /* plain white in dark mode too */
+    --sand: #3a3530;
+  }
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Typography mapping: serif for headings, humanist sans for body */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  letter-spacing: -0.01em;
+}
+
+body, p, a, li, input, textarea, button {
+  font-family: var(--font-body), Georgia, "Times New Roman", Times, serif;
+}
+
+/* Subtle cultural motif as an ultra-light geometric pattern */
+.motif-overlay {
+  position: relative;
+}
+
+.motif-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--foreground) 5%, transparent), transparent 2px),
+    linear-gradient(to right, transparent 0, transparent 100%),
+    linear-gradient(to bottom, transparent 0, transparent 100%);
+  background-size: 24px 24px, 100% 100%, 100% 100%;
+  opacity: 0.04; /* less than 5% perceived */
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.7), rgba(0,0,0,.3) 30%, rgba(0,0,0,.1));
+}
+
+/* Utility for sand dividers */
+.divider-sand {
+  background-color: var(--sand);
+}
+
+/* Hero fade and vignette helpers */
+.fade-bottom {
+  position: relative;
+}
+
+.fade-bottom::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,1) 100%);
+}
+
+/* Animated accent divider */
+.divider-animate {
+  height: 1px;
+  background: var(--accent);
+  width: 0;
+  animation: divider-grow 900ms ease-out forwards;
+}
+
+@keyframes divider-grow {
+  from { width: 0; opacity: 0; }
+  to { width: 10rem; opacity: 1; }
+}
+
+/* Subtle icon hover */
+.icon-card {
+  transition: transform 200ms ease, background-color 200ms ease, border-color 200ms ease;
+}
+.icon-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--accent) 50%, var(--sand));
+}
+.icon {
+  transition: transform 200ms ease, color 200ms ease;
+}
+.icon-card:hover .icon { transform: scale(1.05); color: var(--accent); }
+
+/* Button ripple hover */
+.btn-ripple { position: relative; overflow: hidden; isolation: isolate; }
+.btn-ripple::after {
+  content: "";
+  position: absolute; inset: 0; margin: auto; width: 10px; height: 10px;
+  border-radius: 9999px; background: currentColor; opacity: 0; transform: scale(1);
+  transition: transform 450ms ease, opacity 450ms ease;
+  pointer-events: none; filter: blur(6px);
+}
+.btn-ripple:hover::after { opacity: .18; transform: scale(40); }
+
+/* Fork Your Story Component Classes */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--fys-ink);
+  color: var(--fys-deep);
+  font-family: var(--font-eb-garamond), Georgia, serif;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border: 1px solid var(--fys-ink);
+  border-radius: 0;
+  transition: all 0.3s ease-out;
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--fys-ink);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--fys-ink);
+  font-family: var(--font-eb-garamond), Georgia, serif;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border: 1px solid var(--fys-earth);
+  border-radius: 0;
+  transition: all 0.3s ease-out;
+}
+
+.btn-secondary:hover {
+  background: var(--fys-ink);
+  color: var(--fys-deep);
+  border-color: var(--fys-ink);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--fys-stone);
+  font-family: var(--font-eb-garamond), Georgia, serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  border: none;
+  transition: all 0.3s ease-out;
+}
+
+.btn-ghost:hover {
+  color: var(--fys-ink);
+}
+
+.card {
+  background: var(--fys-deep);
+  border: 1px solid rgba(107, 102, 96, 0.2);
+  border-radius: 0.125rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease-out;
+}
+
+.card:hover {
+  border-color: rgba(154, 139, 122, 0.4);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: var(--fys-ink);
+  font-family: var(--font-spectral), system-ui, sans-serif;
+  border: 1px solid rgba(107, 102, 96, 0.3);
+  border-radius: 0;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--fys-accent);
+  box-shadow: 0 0 0 1px rgba(154, 139, 122, 0.2);
+}
+
+.textarea {
+  width: 100%;
+  padding: 1rem;
+  background: transparent;
+  color: var(--fys-ink);
+  font-family: var(--font-eb-garamond), Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  border: 1px solid rgba(107, 102, 96, 0.3);
+  border-radius: 0;
+  resize: none;
+  transition: all 0.2s;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--fys-accent);
+  box-shadow: 0 0 0 1px rgba(154, 139, 122, 0.2);
+}
+
+.skeleton {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: var(--fys-cream);
+  border-radius: 0.25rem;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
